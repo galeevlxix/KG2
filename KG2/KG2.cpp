@@ -30,7 +30,7 @@ out vec4 FragColor;                                                             
                                                                                     \n\
 void main()                                                                         \n\
 {                                                                                   \n\
-    FragColor = vec4(clamp(Scale, 0.0, 1.0), 1.0);                                           \n\
+    FragColor = vec4(1.0, 0.0, 1.0, 1.0);                                           \n\
 }";
 
 
@@ -70,17 +70,27 @@ static void RenderSceneCB()
 
     rotX[3][0] = 0.0f; rotX[3][1] = 0.0f; rotX[3][2] = 0.0f; rotX[3][3] = 1.0f;
 
-    mat4 vrash;
+    mat4 rotationMatrix;
 
-    vrash[0][0] = sinf(Scale) ; vrash[0][1] = 0.0f; vrash[0][2] = 0.0f; vrash[0][3] = 0.0f;
+    rotationMatrix[0][0] = sinf(Scale); rotationMatrix[0][1] = 0.0f; rotationMatrix[0][2] = 0.0f; rotationMatrix[0][3] = 0.0f;
 
-    vrash[1][0] = 0.0f; vrash[1][1] = sinf(Scale) ; vrash[1][2] = 0.0f; vrash[1][3] = 0.0f;
+    rotationMatrix[1][0] = cosf(Scale); rotationMatrix[1][1] = 1.0f; rotationMatrix[1][2] = 0.0f; rotationMatrix[1][3] = 0.0f;
 
-    vrash[2][0] = 0.0f; vrash[2][1] = 0.0f; vrash[2][2] = 1.0f; vrash[2][3] = 0.0f;
+    rotationMatrix[2][0] = 0.0f; rotationMatrix[2][1] = 0.0f; rotationMatrix[2][2] = 1.0f; rotationMatrix[2][3] = 0.0f;
 
-    vrash[3][0] = 0.0f; vrash[3][1] = 0.0f; vrash[3][2] = 0.0f; vrash[3][3] = 1.0f;
+    rotationMatrix[3][0] = 0.0f; rotationMatrix[3][1] = 0.0f; rotationMatrix[3][2] = 0.0f; rotationMatrix[3][3] = 1.0f;
 
-    mat4 rez = edmat * rotZ * rotX * vrash;
+    mat4 scalematrix;
+
+    scalematrix[0][0] = (sinf(Scale) + 1.5)/3; scalematrix[0][1] = 0.0f; scalematrix[0][2] = 0.0f; scalematrix[0][3] = 0.0f;
+
+    scalematrix[1][0] = 0.0f; scalematrix[1][1] = (sinf(Scale) + 1.5) / 3; scalematrix[1][2] = 0.0f; scalematrix[1][3] = 0.0f;
+
+    scalematrix[2][0] = 0.0f; scalematrix[2][1] = 0.0f; scalematrix[2][2] = 1.0f; scalematrix[2][3] = 0.0f;
+
+    scalematrix[3][0] = 0.0f; scalematrix[3][1] = 0.0f; scalematrix[3][2] = 0.0f; scalematrix[3][3] = 1.0f;
+
+    mat4 rez = edmat * rotZ * rotX * rotationMatrix * scalematrix;
 
     glUniformMatrix4fv(gWorldLocation, 1, GL_TRUE, &rez[0][0]);
 
