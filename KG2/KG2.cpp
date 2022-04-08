@@ -30,7 +30,7 @@ out vec4 FragColor;                                                             
                                                                                     \n\
 void main()                                                                         \n\
 {                                                                                   \n\
-    FragColor = vec4(1.0, 0.0, 0.0, 1.0);                                           \n\
+    FragColor = vec4(clamp(Scale, 0.0, 1.0), 1.0);                                           \n\
 }";
 
 
@@ -72,9 +72,9 @@ static void RenderSceneCB()
 
     mat4 vrash;
 
-    vrash[0][0] = sinf(Scale) / 2; vrash[0][1] = 0.0f; vrash[0][2] = 0.0f; vrash[0][3] = 0.0f;
+    vrash[0][0] = sinf(Scale) ; vrash[0][1] = 0.0f; vrash[0][2] = 0.0f; vrash[0][3] = 0.0f;
 
-    vrash[1][0] = 0.0f; vrash[1][1] = cosf(Scale) / 2; vrash[1][2] = 0.0f; vrash[1][3] = 0.0f;
+    vrash[1][0] = 0.0f; vrash[1][1] = sinf(Scale) ; vrash[1][2] = 0.0f; vrash[1][3] = 0.0f;
 
     vrash[2][0] = 0.0f; vrash[2][1] = 0.0f; vrash[2][2] = 1.0f; vrash[2][3] = 0.0f;
 
